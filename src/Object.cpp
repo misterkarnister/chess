@@ -63,14 +63,17 @@ void Object::destroy()
 
 
 
-void Object::render(float x, float y, double angle, SDL_FPoint* center)
+void Object::render(float x, float y, double angle, SDL_FPoint* center, float width, float height)
 {
+    float w = width > 0.0f ? width : static_cast<float>(texture_width);
+    float h = height > 0.0f ? height : static_cast<float>(texture_height);
+
     SDL_FRect to_render
     {
         x,
         y,
-        static_cast<float>(texture_width),
-        static_cast<float>(texture_height)
+        w,
+        h
     };
 
 

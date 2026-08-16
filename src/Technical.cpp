@@ -105,6 +105,69 @@ bool media(Technical& t)
 
     t.font_board_color = {0, 0, 0, 255};
     t.font_ui_color = {0, 0, 0, 255};
+
+    if(!pawn_white_obj.texture_load("tex/pawn-w.svg"))
+    {
+        SDL_Log("Couldnt load pawn-w.svg: %s", SDL_GetError());
+        success = false;
+    }
+    if(!rook_white_obj.texture_load("tex/rook-w.svg"))
+    {
+        SDL_Log("Couldnt load rook-w.svg: %s", SDL_GetError());
+        success = false;
+    }
+    if(!knight_white_obj.texture_load("tex/knight-w.svg"))
+    {
+        SDL_Log("Couldnt load knight-w.svg: %s", SDL_GetError());
+        success = false;
+    }
+    if(!bishop_white_obj.texture_load("tex/bishop-w.svg"))
+    {
+        SDL_Log("Couldnt load bishop-w.svg: %s", SDL_GetError());
+        success = false;
+    }
+    if(!queen_white_obj.texture_load("tex/queen-w.svg"))
+    {
+        SDL_Log("Couldnt load queen-w.svg: %s", SDL_GetError());
+        success = false;
+    }
+    if(!king_white_obj.texture_load("tex/king-w.svg"))
+    {
+        SDL_Log("Couldnt load king-w.svg: %s", SDL_GetError());
+        success = false;
+    }
+
+    if(!pawn_black_obj.texture_load("tex/pawn-b.svg"))
+    {
+        SDL_Log("Couldnt load pawn-b.svg: %s", SDL_GetError());
+        success = false;
+    }
+    if(!rook_black_obj.texture_load("tex/rook-b.svg"))
+    {
+        SDL_Log("Couldnt load rook-b.svg: %s", SDL_GetError());
+        success = false;
+    }
+    if(!knight_black_obj.texture_load("tex/knight-b.svg"))
+    {
+        SDL_Log("Couldnt load knight-b.svg: %s", SDL_GetError());
+        success = false;
+    }
+    if(!bishop_black_obj.texture_load("tex/bishop-b.svg"))
+    {
+        SDL_Log("Couldnt load bishop-b.svg: %s", SDL_GetError());
+        success = false;
+    }
+    if(!queen_black_obj.texture_load("tex/queen-b.svg"))
+    {
+        SDL_Log("Couldnt load queen-b.svg: %s", SDL_GetError());
+        success = false;
+    }
+    if(!king_black_obj.texture_load("tex/king-b.svg"))
+    {
+        SDL_Log("Couldnt load king-b.svg: %s", SDL_GetError());
+        success = false;
+    }
+
     return success;
 }
 

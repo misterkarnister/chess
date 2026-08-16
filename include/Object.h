@@ -67,7 +67,7 @@ public:
      * \return void
      *
      */
-    void render( float x, float y, double angle = 0.0, SDL_FPoint* center = nullptr);
+    void render( float x, float y, double angle = 0.0, SDL_FPoint* center = nullptr, float width = 0.0f, float height = 0.0f);
 
     /** \brief getter
      *

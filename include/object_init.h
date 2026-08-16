@@ -32,6 +32,8 @@ inline Bishop       promo_bishop_white[8],  promo_bishop_black[8];
 inline Knight       promo_knight_white[8],  promo_knight_black[8];
 inline Piece        promo_display[4];
 inline Text         letters_text[8],    digits_text[8],     black_won_text,      white_won_text,      draw_text;
+inline Object       pawn_white_obj, rook_white_obj, knight_white_obj, bishop_white_obj, queen_white_obj, king_white_obj,
+                    pawn_black_obj, rook_black_obj, knight_black_obj, bishop_black_obj, queen_black_obj, king_black_obj;
 inline Mouse        m1;
 inline Game         g1;
 inline Technical    t1;

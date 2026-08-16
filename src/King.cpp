@@ -26,6 +26,7 @@ void King::piece_init(Color c)
 
 
         color_sdl= piece_white;
+        the_texture = &king_white_obj;
         break;
     }
     case BLACK:
@@ -35,6 +36,7 @@ void King::piece_init(Color c)
         g1.board[g1.players_color==WHITE? 0 + board_pos.x : 56 + board_pos.x]=&king_black;
 
         color_sdl = piece_black;
+        the_texture = &king_black_obj;
         break;
     }
     }
@@ -87,93 +89,36 @@ void King::valid_squares_find()
     }
     if(start_pos)
     {
-        switch(g1.players_color)
+        Rook* my_rooks[2] = {(color == WHITE) ? &rooks_white[0] : &rooks_black[0],
+                             (color == WHITE) ? &rooks_white[1] : &rooks_black[1]};
+
+        for(int r = 0; r < 2; r++)
         {
-        case WHITE:
-        {
-            bool castler = true;
-            if(rooks_white[0].start_pos)
+            if(!my_rooks[r]->start_pos)
+                continue;
+
+            int dx = my_rooks[r]->board_pos.x - board_pos.x;
+            if(dx == 0)
+                continue;
+
+            int step = dx > 0 ? 1 : -1;
+
+            bool clear = true;
+            for(int x = board_pos.x + step; x != my_rooks[r]->board_pos.x; x += step)
             {
-                Vec2i mods_long[] = {{-3, 0}, {-2, 0}, {-1, 0}};
-                for(int i = 0; i < 3; i++)
+                Vec2i chk = {x, board_pos.y};
+                if(!g1.square_free(chk))
                 {
-                    Vec2i chk = board_pos.add(mods_long[i]);
-                    if(!g1.square_free(chk))
-                    {
-                        castler = false;
-                        break;
-                    }
-                }
-                if(castler)
-                {
-                    valid_squares.push_back({board_pos.x - 2, board_pos.y});
+                    clear = false;
+                    break;
                 }
             }
 
-            if(rooks_white[1].start_pos)
+            if(clear)
             {
-                castler = true;
-                Vec2i mods_short[] = {{1, 0}, {2, 0}};
-                for(int i = 0; i < 2; i++)
-                {
-                    Vec2i chk = board_pos.add(mods_short[i]);
-                    if(!g1.square_free(chk))
-                    {
-                        castler= false;
-                        break;
-                    }
-                }
-                if(castler)
-                {
-                    valid_squares.push_back({board_pos.x + 2, board_pos.y});
-                }
+                valid_squares.push_back({board_pos.x + 2 * step, board_pos.y});
             }
-
-            break;
         }
-        case BLACK:
-        {
-            bool castler = true;
-            if(rooks_black[1].start_pos)
-            {
-                Vec2i mods_short[] = {{1, 0}, {2, 0}, {3, 0}};
-                for(int i = 0; i < 3; i++)
-                {
-                    Vec2i chk = board_pos.add(mods_short[i]);
-                    if(!g1.square_free(chk))
-                    {
-                        castler = false;
-                        break;
-                    }
-                }
-                if(castler)
-                {
-                    valid_squares.push_back({board_pos.x + 2, board_pos.y});
-                }
-            }
-            if(rooks_black[0].start_pos)
-            {
-                castler = true;
-                Vec2i mods_long[] = {{-2, 0}, {-1, 0}};
-                for(int i = 0; i < 2; i++)
-                {
-                    Vec2i chk = board_pos.add(mods_long[i]);
-                    if(!g1.square_free(chk))
-                    {
-                        castler= false;
-                        break;
-                    }
-                }
-                if(castler)
-                {
-                    valid_squares.push_back({board_pos.x - 2, board_pos.y});
-                }
-            }
-
-            break;
-        }
-        }
-
     }
 
 }

@@ -36,6 +36,7 @@ class Piece
         void render();
         void cleanup();
         Text name;
+        Object* the_texture;
         Color color;
         bool start_pos;
         Vec2i board_pos;

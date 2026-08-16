@@ -26,6 +26,7 @@ void Bishop::piece_init(Color c)
 
             white_ind++;
             color_sdl= piece_white;
+            the_texture = &bishop_white_obj;
             break;
         }
     case BLACK:
@@ -35,6 +36,7 @@ void Bishop::piece_init(Color c)
             g1.board[g1.players_color==WHITE? 0 + board_pos.x : 56 + board_pos.x]=&bishops_black[black_ind];
             black_ind++;
             color_sdl = piece_black;
+            the_texture = &bishop_black_obj;
             break;
         }
     }

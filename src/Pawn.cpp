@@ -28,6 +28,7 @@ void Pawn::piece_init(Color c)
 
         white_ind++;
         color_sdl= piece_white;
+        the_texture = &pawn_white_obj;
         break;
     }
     case BLACK:
@@ -37,6 +38,7 @@ void Pawn::piece_init(Color c)
         g1.board[g1.players_color==WHITE? 8 + black_ind : 48 + black_ind]=&pawns_black[black_ind];
         black_ind++;
         color_sdl = piece_black;
+        the_texture = &pawn_black_obj;
         break;
     }
     }
@@ -257,10 +259,10 @@ void Pawn::promote_render()
                     promo_display[i].piece_init(WHITE);
                     switch(i)
                     {
-                        case 0: promo_display[i].name.text_load("Q", t1.font_piece_get(), piece_white);break;
-                        case 1: promo_display[i].name.text_load("R", t1.font_piece_get(), piece_white);break;
-                        case 2: promo_display[i].name.text_load("B", t1.font_piece_get(), piece_white);break;
-                        case 3: promo_display[i].name.text_load("N", t1.font_piece_get(), piece_white);break;
+                        case 0: promo_display[i].name.text_load("Q", t1.font_piece_get(), piece_white); promo_display[i].the_texture = &queen_white_obj;break;
+                        case 1: promo_display[i].name.text_load("R", t1.font_piece_get(), piece_white); promo_display[i].the_texture = &rook_white_obj;break;
+                        case 2: promo_display[i].name.text_load("B", t1.font_piece_get(), piece_white); promo_display[i].the_texture = &bishop_white_obj;break;
+                        case 3: promo_display[i].name.text_load("N", t1.font_piece_get(), piece_white); promo_display[i].the_texture = &knight_white_obj;break;
                     }
                 }
 
@@ -284,10 +286,10 @@ void Pawn::promote_render()
                     promo_display[i].piece_init(BLACK);
                     switch(i)
                     {
-                        case 0: promo_display[i].name.text_load("Q", t1.font_piece_get(), piece_black);break;
-                        case 1: promo_display[i].name.text_load("R", t1.font_piece_get(), piece_black);break;
-                        case 2: promo_display[i].name.text_load("B", t1.font_piece_get(), piece_black);break;
-                        case 3: promo_display[i].name.text_load("N", t1.font_piece_get(), piece_black);break;
+                        case 0: promo_display[i].name.text_load("Q", t1.font_piece_get(), piece_black); promo_display[i].the_texture = &queen_black_obj;break;
+                        case 1: promo_display[i].name.text_load("R", t1.font_piece_get(), piece_black); promo_display[i].the_texture = &rook_black_obj;break;
+                        case 2: promo_display[i].name.text_load("B", t1.font_piece_get(), piece_black); promo_display[i].the_texture = &bishop_black_obj;break;
+                        case 3: promo_display[i].name.text_load("N", t1.font_piece_get(), piece_black); promo_display[i].the_texture = &knight_black_obj;break;
                     }
                 }
 
@@ -314,10 +316,10 @@ void Pawn::promote_render()
                     promo_display[i].piece_init(BLACK);
                     switch(i)
                     {
-                        case 0: promo_display[i].name.text_load("Q", t1.font_piece_get(), piece_black);break;
-                        case 1: promo_display[i].name.text_load("R", t1.font_piece_get(), piece_black);break;
-                        case 2: promo_display[i].name.text_load("B", t1.font_piece_get(), piece_black);break;
-                        case 3: promo_display[i].name.text_load("N", t1.font_piece_get(), piece_black);break;
+                        case 0: promo_display[i].name.text_load("Q", t1.font_piece_get(), piece_black); promo_display[i].the_texture = &queen_black_obj;break;
+                        case 1: promo_display[i].name.text_load("R", t1.font_piece_get(), piece_black); promo_display[i].the_texture = &rook_black_obj;break;
+                        case 2: promo_display[i].name.text_load("B", t1.font_piece_get(), piece_black); promo_display[i].the_texture = &bishop_black_obj;break;
+                        case 3: promo_display[i].name.text_load("N", t1.font_piece_get(), piece_black); promo_display[i].the_texture = &knight_black_obj;break;
                     }
                 }
 
@@ -341,10 +343,10 @@ void Pawn::promote_render()
                     promo_display[i].piece_init(WHITE);
                     switch(i)
                     {
-                        case 0: promo_display[i].name.text_load("Q", t1.font_piece_get(), piece_white);break;
-                        case 1: promo_display[i].name.text_load("R", t1.font_piece_get(), piece_white);break;
-                        case 2: promo_display[i].name.text_load("B", t1.font_piece_get(), piece_white);break;
-                        case 3: promo_display[i].name.text_load("N", t1.font_piece_get(), piece_white);break;
+                        case 0: promo_display[i].name.text_load("Q", t1.font_piece_get(), piece_white); promo_display[i].the_texture = &queen_white_obj;break;
+                        case 1: promo_display[i].name.text_load("R", t1.font_piece_get(), piece_white); promo_display[i].the_texture = &rook_white_obj;break;
+                        case 2: promo_display[i].name.text_load("B", t1.font_piece_get(), piece_white); promo_display[i].the_texture = &bishop_white_obj;break;
+                        case 3: promo_display[i].name.text_load("N", t1.font_piece_get(), piece_white); promo_display[i].the_texture = &knight_white_obj;break;
                     }
                 }
 

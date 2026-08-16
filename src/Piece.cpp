@@ -9,7 +9,7 @@ Piece::Piece()
     selected = false;
     start_pos = true;
     checks = false;
-
+    the_texture = nullptr;
 }
 
 Piece::~Piece()
@@ -17,21 +17,52 @@ Piece::~Piece()
 }
 void Piece::render()
 {
-
-    name.render(
+    if(the_texture==nullptr || the_texture==&name)
+    {
+        name.render(
                 name.position_get().x,
                 name.position_get().y);
+        return;
+    }
+
+    Vec2f npos = name.position_get();
+    float center_x = npos.x + name.width_get() * 0.5f;
+    float center_y = npos.y + name.height_get() * 0.5f;
+
+    float size = static_cast<float>(g1.square_dim);
+    the_texture->render(
+            center_x - size * 0.5f,
+            center_y - size * 0.5f,
+            0.0,
+            nullptr,
+            size,
+            size);
 }
 void Piece::cleanup()
 {
     name.destroy();
+    if(the_texture != nullptr && the_texture != &name)
+        the_texture->destroy();
 }
 bool Piece::mouse_in()
 {
     Vec2f mpos = m1.position_get();
     Vec2f ppos = name.position_get();
 
-    if(mpos.x<ppos.x || mpos.x>ppos.x + name.width_get() || mpos.y<ppos.y || mpos.y>ppos.y + name.height_get())
+    if(the_texture == nullptr || the_texture == &name)
+    {
+        if(mpos.x<ppos.x || mpos.x>ppos.x + name.width_get() || mpos.y<ppos.y || mpos.y>ppos.y + name.height_get())
+        {
+            return false;
+        }
+        return true;
+    }
+
+    Vec2f cpos = {ppos.x + name.width_get() * 0.5f, ppos.y + name.height_get() * 0.5f};
+    float size = static_cast<float>(g1.square_dim);
+    Vec2f tpos = {cpos.x - size * 0.5f, cpos.y - size * 0.5f};
+
+    if(mpos.x<tpos.x || mpos.x>tpos.x + size || mpos.y<tpos.y || mpos.y>tpos.y + size)
     {
         return false;
     }
@@ -369,8 +400,6 @@ void Piece::piece_init(Color c)
         }
     }
 
-
-
 }
 
 void Piece::valid_squares_find()
@@ -401,17 +430,17 @@ void Piece::promote()
             {
                 if(color==WHITE)
                 {
-                    if(name.text_cmp("Q")==0)       promotion = &promo_queen_white[ind];
-                    else if(name.text_cmp("R")==0)  promotion = &promo_rook_white[ind];
-                    else if(name.text_cmp("B")==0)  promotion = &promo_bishop_white[ind];
-                    else if(name.text_cmp("N")==0)  promotion = &promo_knight_white[ind];
+                    if(name.text_cmp("Q")==0)       { promotion = &promo_queen_white[ind];   promotion->the_texture = &queen_white_obj; }
+                    else if(name.text_cmp("R")==0)  { promotion = &promo_rook_white[ind];    promotion->the_texture = &rook_white_obj; }
+                    else if(name.text_cmp("B")==0)  { promotion = &promo_bishop_white[ind];  promotion->the_texture = &bishop_white_obj; }
+                    else if(name.text_cmp("N")==0)  { promotion = &promo_knight_white[ind];  promotion->the_texture = &knight_white_obj; }
                 }
                 else
                 {
-                    if(name.text_cmp("Q")==0)       promotion = &promo_queen_black[ind];
-                    else if(name.text_cmp("R")==0)  promotion = &promo_rook_black[ind];
-                    else if(name.text_cmp("B")==0)  promotion = &promo_bishop_black[ind];
-                    else if(name.text_cmp("N")==0)  promotion = &promo_knight_black[ind];
+                    if(name.text_cmp("Q")==0)       { promotion = &promo_queen_black[ind];   promotion->the_texture = &queen_black_obj; }
+                    else if(name.text_cmp("R")==0)  { promotion = &promo_rook_black[ind];    promotion->the_texture = &rook_black_obj; }
+                    else if(name.text_cmp("B")==0)  { promotion = &promo_bishop_black[ind];  promotion->the_texture = &bishop_black_obj; }
+                    else if(name.text_cmp("N")==0)  { promotion = &promo_knight_black[ind];  promotion->the_texture = &knight_black_obj; }
                 }
             }
 

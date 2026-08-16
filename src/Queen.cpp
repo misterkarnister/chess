@@ -25,6 +25,7 @@ void Queen::piece_init(Color c)
 
 
             color_sdl= piece_white;
+            the_texture = &queen_white_obj;
             break;
         }
     case BLACK:
@@ -34,6 +35,7 @@ void Queen::piece_init(Color c)
             g1.board[g1.players_color==WHITE? 0 + board_pos.x : 56 + board_pos.x]=&queen_black;
 
             color_sdl = piece_black;
+            the_texture = &queen_black_obj;
             break;
         }
     }

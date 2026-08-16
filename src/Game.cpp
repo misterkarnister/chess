@@ -199,6 +199,21 @@ void Game::game_close()
     king_white.cleanup();
     king_black.cleanup();
 
+    for(int i = 0; i<8;i++)
+    {
+        promo_queen_white[i].cleanup();
+        promo_queen_black[i].cleanup();
+        promo_rook_white[i].cleanup();
+        promo_rook_black[i].cleanup();
+        promo_bishop_white[i].cleanup();
+        promo_bishop_black[i].cleanup();
+        promo_knight_white[i].cleanup();
+        promo_knight_black[i].cleanup();
+    }
+
+    for(int i = 0; i<4;i++)
+        promo_display[i].cleanup();
+
     white_won_text.destroy();
     black_won_text.destroy();
     draw_text.destroy();
