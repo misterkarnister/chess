@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="chess" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/chess" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/chess" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="include/Bishop.h" />
+		<Unit filename="include/Game.h" />
+		<Unit filename="include/King.h" />
+		<Unit filename="include/Knight.h" />
+		<Unit filename="include/Mouse.h" />
+		<Unit filename="include/Object.h" />
+		<Unit filename="include/Pawn.h" />
+		<Unit filename="include/Piece.h" />
+		<Unit filename="include/Queen.h" />
+		<Unit filename="include/Rook.h" />
+		<Unit filename="include/Technical.h" />
+		<Unit filename="include/mSDL.h" />
+		<Unit filename="include/object_init.h" />
+		<Unit filename="include/structs.h" />
+		<Unit filename="src/Bishop.cpp" />
+		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/King.cpp" />
+		<Unit filename="src/Knight.cpp" />
+		<Unit filename="src/Mouse.cpp" />
+		<Unit filename="src/Object.cpp" />
+		<Unit filename="src/Pawn.cpp" />
+		<Unit filename="src/Piece.cpp" />
+		<Unit filename="src/Queen.cpp" />
+		<Unit filename="src/Rook.cpp" />
+		<Unit filename="src/Technical.cpp" />
+		<Unit filename="src/main.cpp" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,118 @@
+# depslib dependency file v1.0
+1786878640 source:/home/temper/chess/src/main.cpp
+	"../include/object_init.h"
+	<SDL3/SDL.h>
+	<SDL3/SDL_main.h>
+	<iostream>
+
+1786877533 source:/home/temper/chess/src/Technical.cpp
+	"../include/Technical.h"
+	"../include/object_init.h"
+	<iostream>
+
+1786877533 /home/temper/chess/include/Technical.h
+	"../include/SDL3/SDL.h"
+	"../include/SDL3_ttf/SDL_ttf.h"
+
+1786870695 /home/temper/chess/include/object_init.h
+	"Object.h"
+	"Game.h"
+	"Technical.h"
+	"Pawn.h"
+	"Rook.h"
+	"Knight.h"
+	"Bishop.h"
+	"Queen.h"
+	"King.h"
+	"Mouse.h"
+
+1786877961 source:/home/temper/chess/src/Game.cpp
+	"Game.h"
+	"object_init.h"
+	<iostream>
+	<string>
+
+1786877464 /home/temper/chess/include/Game.h
+	<SDL3/SDL.h>
+	"structs.h"
+	"Piece.h"
+
+1784351306 source:/home/temper/chess/src/Object.cpp
+	"../include/SDL3_image/SDL_image.h"
+	"Object.h"
+	"object_init.h"
+
+1786096661 /home/temper/chess/include/Object.h
+	"../include/SDL3/SDL.h"
+	"../include/SDL3_ttf/SDL_ttf.h"
+	"structs.h"
+
+1786872660 /home/temper/chess/include/structs.h
+
+1786878413 source:/home/temper/chess/src/Piece.cpp
+	"Piece.h"
+	"object_init.h"
+	<iostream>
+	"mSDL.h"
+
+1786873469 /home/temper/chess/include/Piece.h
+	"structs.h"
+	"Object.h"
+	<vector>
+
+1786878551 source:/home/temper/chess/src/Pawn.cpp
+	"Pawn.h"
+	"object_init.h"
+	"mSDL.h"
+
+1786096976 /home/temper/chess/include/Pawn.h
+	"Piece.h"
+
+1784312503 /home/temper/chess/include/Rook.h
+	"Piece.h"
+
+1786878551 source:/home/temper/chess/src/Rook.cpp
+	"Rook.h"
+	"object_init.h"
+	<iostream>
+
+1784309854 /home/temper/chess/include/Knight.h
+	"Piece.h"
+
+1784299256 /home/temper/chess/include/Bishop.h
+	"Piece.h"
+
+1786877689 source:/home/temper/chess/src/Knight.cpp
+	"Knight.h"
+	"object_init.h"
+
+1786877688 source:/home/temper/chess/src/Bishop.cpp
+	"Bishop.h"
+	"object_init.h"
+
+1784299256 /home/temper/chess/include/Queen.h
+	"Piece.h"
+
+1786877690 source:/home/temper/chess/src/Queen.cpp
+	"Queen.h"
+	"object_init.h"
+
+1784312503 /home/temper/chess/include/King.h
+	"Piece.h"
+
+1786878551 source:/home/temper/chess/src/King.cpp
+	"King.h"
+	"object_init.h"
+
+1786095523 /home/temper/chess/include/Mouse.h
+	"SDL3/SDL.h"
+	"structs.h"
+
+1786095584 source:/home/temper/chess/src/Mouse.cpp
+	"Mouse.h"
+
+1786877735 /home/temper/chess/include/mSDL.h
+	<SDL3/SDL.h>
+	<cmath>
+	<vector>
+
