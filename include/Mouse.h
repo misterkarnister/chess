@@ -1,6 +1,6 @@
 /** \author Igor Solny
  *
- * \file Controls.h
+ * \file Mouse.h
  *
  * \brief obsługa sterowania
  */
@@ -9,7 +9,7 @@
 #ifndef CONTROLS_H
 #define CONTROLS_H
 
-#include "SDL3/SDL.h"
+#include <SDL3/SDL.h>
 
 #include "structs.h"
 //#define DEBUG_MOUSE 1
@@ -50,7 +50,7 @@ class Mouse
          * \return Vec2f - pozycja myszki
          *
          */
-        Vec2f position_get();
+        Vec2f position_get() const;
 
         /** \brief DEBUG_MOUSE - wypisuje aktualna pozycję myszki
          *

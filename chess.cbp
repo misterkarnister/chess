@@ -45,6 +45,7 @@
 		<Unit filename="include/Queen.h" />
 		<Unit filename="include/Rook.h" />
 		<Unit filename="include/Technical.h" />
+		<Unit filename="include/constants.h" />
 		<Unit filename="include/mSDL.h" />
 		<Unit filename="include/object_init.h" />
 		<Unit filename="include/structs.h" />

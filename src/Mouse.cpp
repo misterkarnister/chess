@@ -6,10 +6,7 @@ Mouse::Mouse()
     clicked = false;
 }
 
-Mouse::~Mouse()
-{
-    //dtor
-}
+Mouse::~Mouse() = default;
 void Mouse::position_set(float x, float y)
 {
     position.arg_set(x, y);
@@ -26,7 +23,7 @@ void Mouse::mouse_handler()
     position_print();
     #endif // DEBUG_MOUSE
 }
-Vec2f Mouse::position_get()
+Vec2f Mouse::position_get() const
 {
     return position;
 }

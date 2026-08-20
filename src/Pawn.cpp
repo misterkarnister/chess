@@ -16,34 +16,32 @@ void Pawn::piece_init(Color c)
 {
 
     color = c;
-    static int white_ind = 0;
-    static int black_ind = 0;
     switch(c)
     {
     case WHITE:
     {
-        board_pos.x = white_ind;
+        board_pos.x = g1.pawn_white_idx;
         board_pos.y =  g1.players_color==WHITE ? 6 : 1;
-        g1.board[g1.players_color==WHITE? 48 + white_ind : 8 + white_ind]=&pawns_white[white_ind];
+        g1.board[g1.players_color==WHITE? 48 + g1.pawn_white_idx : 8 + g1.pawn_white_idx]=&pawns_white[g1.pawn_white_idx];
 
-        white_ind++;
+        g1.pawn_white_idx++;
         color_sdl= piece_white;
         the_texture = &pawn_white_obj;
         break;
     }
     case BLACK:
     {
-        board_pos.x = black_ind;
+        board_pos.x = g1.pawn_black_idx;
         board_pos.y =  g1.players_color==WHITE ? 1 : 6;
-        g1.board[g1.players_color==WHITE? 8 + black_ind : 48 + black_ind]=&pawns_black[black_ind];
-        black_ind++;
+        g1.board[g1.players_color==WHITE? 8 + g1.pawn_black_idx : 48 + g1.pawn_black_idx]=&pawns_black[g1.pawn_black_idx];
+        g1.pawn_black_idx++;
         color_sdl = piece_black;
         the_texture = &pawn_black_obj;
         break;
     }
     }
     name.text_load("p", t1.font_piece_get(), color_sdl);
-    Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (board_pos.x+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.width_get()),static_cast<float>(t1.window_height_get() * 0.1 + (board_pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.height_get())};
+    Vec2f newpos = g1.board_to_screen(board_pos, name.width_get(), name.height_get());
     name.position_update(newpos);
 }
 void Pawn::valid_squares_find()
@@ -223,7 +221,7 @@ void Pawn::move(Vec2i pos)
     g1.board[board_pos.y*8 + board_pos.x] = nullptr;
     position_update(pos);
 
-    Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (board_pos.x+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.width_get()),static_cast<float>(t1.window_height_get() * 0.1 + (board_pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.height_get())};
+    Vec2f newpos = g1.board_to_screen(board_pos, name.width_get(), name.height_get());
     name.position_update(newpos);
 
     start_pos = false;
@@ -236,7 +234,10 @@ void Pawn::move(Vec2i pos)
 
     g1.black_valid_squares=0;
     g1.white_valid_squares=0;
-    g1.turn==WHITE? g1.turn = BLACK : g1.turn = WHITE;
+    g1.toggle_turn();
+
+    c1.engine_start();
+    c1.full_eval();
 }
 void Pawn::promote_render()
 {
@@ -368,8 +369,7 @@ void Pawn::promote_render()
         {
             g1.square_render(i+board_pos.x, -1, start_color);
             promo_display[i+2].position_update({i+board_pos.x, -1});
-            Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (promo_display[i+2].board_pos.x+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * promo_display[i+2].name.width_get()),
-            static_cast<float>(t1.window_height_get() * 0.1 + (promo_display[i+2].board_pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * promo_display[i+2].name.height_get())};
+            Vec2f newpos = g1.board_to_screen(promo_display[i+2].board_pos, promo_display[i+2].name.width_get(), promo_display[i+2].name.height_get());
             promo_display[i+2].name.position_update(newpos);
             promo_display[i+2].render();
             if(start_color==g1.black_color)
@@ -385,8 +385,7 @@ void Pawn::promote_render()
             g1.square_render(i+board_pos.x, 8, start_color);
 
             promo_display[i+2].position_update({i+board_pos.x, 8});
-            Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (promo_display[i+2].board_pos.x+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * promo_display[i+2].name.width_get()),
-            static_cast<float>(t1.window_height_get() * 0.1 + (promo_display[i+2].board_pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * promo_display[i+2].name.height_get())};
+            Vec2f newpos = g1.board_to_screen(promo_display[i+2].board_pos, promo_display[i+2].name.width_get(), promo_display[i+2].name.height_get());
             promo_display[i+2].name.position_update(newpos);
             promo_display[i+2].render();
             if(start_color==g1.white_color)

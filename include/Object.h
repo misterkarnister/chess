@@ -10,8 +10,8 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "../include/SDL3/SDL.h"
-#include "../include/SDL3_ttf/SDL_ttf.h"
+#include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include "structs.h"
 /** \class Object
@@ -147,6 +147,8 @@ public:
     bool text_load(const char* strr, TTF_Font* fontt, SDL_Color font_colorr);
 
     int text_cmp(const char* other);
+
+    bool mouse_in(float m_x, float m_y);
     const char* str;/**< aktualny napis */
 protected:
 

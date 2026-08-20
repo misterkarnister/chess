@@ -13,9 +13,9 @@ struct mSDL_Circle
 
 inline void mSDL_RenderCircle(SDL_Renderer* renderer, mSDL_Circle* circ)
 {
-    int num = circ->radius * 2 + 1;
-    SDL_FPoint* y_plus = new SDL_FPoint[num];
-    SDL_FPoint* y_minus = new SDL_FPoint[num];
+    int num = static_cast<int>(circ->radius * 2 + 1);
+    std::vector<SDL_FPoint> y_plus(num);
+    std::vector<SDL_FPoint> y_minus(num);
 
     int index = 0;
     double x = -(circ->radius);
@@ -32,11 +32,8 @@ inline void mSDL_RenderCircle(SDL_Renderer* renderer, mSDL_Circle* circ)
         x++;
     }
 
-    SDL_RenderLines(renderer, y_plus, num);
-    SDL_RenderLines(renderer, y_minus, num);
-
-    delete[] y_plus;
-    delete[] y_minus;
+    SDL_RenderLines(renderer, y_plus.data(), num);
+    SDL_RenderLines(renderer, y_minus.data(), num);
 }
 inline void mSDL_RenderFillCircle(SDL_Renderer* renderer, mSDL_Circle* circ)
 {

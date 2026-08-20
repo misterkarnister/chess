@@ -1,8 +1,5 @@
-#include "../include/Technical.h"
-#include "../include/object_init.h"
-
-
-#include <iostream>
+#include "Technical.h"
+#include "object_init.h"
 
 Technical::Technical()
 {
@@ -21,44 +18,42 @@ Technical::Technical()
     font_board_color = {255, 255, 255, 255};
 }
 
-Technical::~Technical()
-{
-}
+Technical::~Technical() = default;
 
-bool init(Technical& t)
+bool Technical::init()
 {
     bool success = true;
 
     if(!SDL_Init(SDL_INIT_VIDEO))
     {
         SDL_Log("SDL_Init(SDL_INIT_VIDEO) failed! \n%s", SDL_GetError());
-        t.err_code = ERR_SDL_INIT;
+        err_code = ERR_SDL_INIT;
         success = false;
     }
     else
     {
-        t.window = SDL_CreateWindow("SC2D", 1280, 960, 0);
-        if(t.window == nullptr)
+        window = SDL_CreateWindow("SC2D", 1280, 960, 0);
+        if(window == nullptr)
         {
             SDL_Log("SDL_CreateWindow('SC2D', 800, 600, 0) failed!\n%s", SDL_GetError());
-            t.err_code = ERR_SDL_CREATE_WINDOW;
+            err_code = ERR_SDL_CREATE_WINDOW;
             success = false;
         }
         else
         {
-            if(!SDL_GetWindowSize(t.window, &t.window_width, &t.window_height))
+            if(!SDL_GetWindowSize(window, &window_width, &window_height))
             {
-                SDL_Log("SDL_GetWindowSize(t.window, &t.window_width, &t.window_height) failed!\n%s", SDL_GetError());
-                t.err_code = ERR_SDL_GET_WINDOW_SIZE;
+                SDL_Log("SDL_GetWindowSize(window, &window_width, &window_height) failed!\n%s", SDL_GetError());
+                err_code = ERR_SDL_GET_WINDOW_SIZE;
                 success = false;
             }
             else
             {
-                t.renderer = SDL_CreateRenderer(t.window, nullptr);
-                if(t.renderer==nullptr)
+                renderer = SDL_CreateRenderer(window, nullptr);
+                if(renderer==nullptr)
                 {
-                    SDL_Log("SDL_CreateRenderer(t.window, nullptr)\n%s", SDL_GetError());
-                    t.err_code = ERR_SDL_CREATE_RENDERER;
+                    SDL_Log("SDL_CreateRenderer(window, nullptr)\n%s", SDL_GetError());
+                    err_code = ERR_SDL_CREATE_RENDERER;
                     success = false;
                 }
                 else
@@ -66,7 +61,7 @@ bool init(Technical& t)
                     if(!TTF_Init())
                     {
                         SDL_Log("TTF_Init()\n%s", SDL_GetError());
-                        t.err_code = ERR_TTF_INIT;
+                        err_code = ERR_TTF_INIT;
                         success = false;
                     }
                 }
@@ -78,33 +73,33 @@ bool init(Technical& t)
     return success;
 }
 
-bool media(Technical& t)
+bool Technical::media()
 {
     bool success = true;
 
-    t.font_board = TTF_OpenFont("fonts/ProggyVector Regular.ttf", 14);
-    if(t.font_board==nullptr)
+    font_board = TTF_OpenFont("fonts/ProggyVector Regular.ttf", 14);
+    if(font_board==nullptr)
     {
         SDL_Log("Couldnt load font_board: %s", SDL_GetError());
         success = false;
     }
 
-    t.font_piece = TTF_OpenFont("fonts/ProggyVector Regular.ttf", 20);
-    if(t.font_piece==nullptr)
+    font_piece = TTF_OpenFont("fonts/ProggyVector Regular.ttf", 20);
+    if(font_piece==nullptr)
     {
         SDL_Log("Couldnt load font_piece: %s", SDL_GetError());
         success = false;
     }
 
-    t.font_ui = TTF_OpenFont("fonts/ProggyVector Regular.ttf", 40);
-    if(t.font_ui==nullptr)
+    font_ui = TTF_OpenFont("fonts/ProggyVector Regular.ttf", 40);
+    if(font_ui==nullptr)
     {
         SDL_Log("Couldnt load font_ui: %s", SDL_GetError());
         success = false;
     }
 
-    t.font_board_color = {0, 0, 0, 255};
-    t.font_ui_color = {0, 0, 0, 255};
+    font_board_color = {0, 0, 0, 255};
+    font_ui_color = {0, 0, 0, 255};
 
     if(!pawn_white_obj.texture_load("tex/pawn-w.svg"))
     {
@@ -171,34 +166,34 @@ bool media(Technical& t)
     return success;
 }
 
-void close(Technical& t)
+void Technical::close()
 {
-    if(t.renderer!=nullptr)
+    if(renderer!=nullptr)
     {
-        SDL_DestroyRenderer(t.renderer);
-        t.renderer = nullptr;
+        SDL_DestroyRenderer(renderer);
+        renderer = nullptr;
     }
 
-    if(t.window!=nullptr)
+    if(window!=nullptr)
     {
-        SDL_DestroyWindow(t.window);
-        t.window = nullptr;
+        SDL_DestroyWindow(window);
+        window = nullptr;
     }
 
-    if(t.font_board!=nullptr)
+    if(font_board!=nullptr)
     {
-        TTF_CloseFont(t.font_board);
-        t.font_board=nullptr;
+        TTF_CloseFont(font_board);
+        font_board=nullptr;
     }
-    if(t.font_piece!=nullptr)
+    if(font_piece!=nullptr)
     {
-        TTF_CloseFont(t.font_piece);
-        t.font_piece=nullptr;
+        TTF_CloseFont(font_piece);
+        font_piece=nullptr;
     }
-    if(t.font_ui!=nullptr)
+    if(font_ui!=nullptr)
     {
-        TTF_CloseFont(t.font_ui);
-        t.font_piece=nullptr;
+        TTF_CloseFont(font_ui);
+        font_ui=nullptr;
     }
 
     static bool quit_called = false;
@@ -210,47 +205,47 @@ void close(Technical& t)
     }
 }
 
-SDL_Window* Technical::window_get()
+SDL_Window* Technical::window_get() const
 {
     return window;
 }
-int Technical::window_height_get()
+int Technical::window_height_get() const
 {
     return window_height;
 }
-int Technical::window_width_get()
+int Technical::window_width_get() const
 {
     return window_width;
 }
-SDL_Renderer* Technical::renderer_get()
+SDL_Renderer* Technical::renderer_get() const
 {
     return renderer;
 }
-Errors_technical Technical::err_code_get()
+Errors_technical Technical::err_code_get() const
 {
     return err_code;
 }
-int Technical::fps_target_get()
+int Technical::fps_target_get() const
 {
     return fps_target;
 }
-TTF_Font* Technical::font_board_get()
+TTF_Font* Technical::font_board_get() const
 {
     return font_board;
 }
-SDL_Color Technical::font_board_color_get()
+SDL_Color Technical::font_board_color_get() const
 {
     return font_board_color;
 }
-TTF_Font* Technical::font_piece_get()
+TTF_Font* Technical::font_piece_get() const
 {
     return font_piece;
 }
-TTF_Font* Technical::font_ui_get()
+TTF_Font* Technical::font_ui_get() const
 {
     return font_ui;
 }
-SDL_Color Technical::font_ui_color_get()
+SDL_Color Technical::font_ui_color_get() const
 {
     return font_ui_color;
 }

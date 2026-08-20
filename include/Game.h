@@ -36,7 +36,22 @@ class Game
         void game_judge();
         void game_end_render();
 
+        void main_menu_render();
+
+
         Color turn;
+
+        Vec2f board_to_screen(Vec2i board_pos, float obj_w, float obj_h);
+        void toggle_turn();
+
+        int pawn_white_idx;
+        int pawn_black_idx;
+        int rook_white_idx;
+        int rook_black_idx;
+        int knight_white_idx;
+        int knight_black_idx;
+        int bishop_white_idx;
+        int bishop_black_idx;
 
     protected:
 

@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "object_init.h"
-#include <iostream>
+#include "constants.h"
 #include <string>
 Game::Game()
 {
@@ -20,12 +20,21 @@ Game::Game()
     checked_color = WHITE;
 
     mode = PVP;
-    state = PLAYING;
+    state = MAIN_MENU;
 
     white_valid_squares = 0;
     black_valid_squares = 0;
 
     turn = WHITE;
+
+    pawn_white_idx = 0;
+    pawn_black_idx = 0;
+    rook_white_idx = 0;
+    rook_black_idx = 0;
+    knight_white_idx = 0;
+    knight_black_idx = 0;
+    bishop_white_idx = 0;
+    bishop_black_idx = 0;
 
 }
 
@@ -129,7 +138,7 @@ void Game::board_render()
 }
 void Game::text_generate()
 {
-    char* lets[] =
+    const char* lets[] =
     {
         "A", "B", "C", "D", "E", "F", "G", "H"
     };
@@ -141,10 +150,21 @@ void Game::text_generate()
     white_won_text.text_load("White won!", t1.font_ui_get(), t1.font_board_color_get());
     black_won_text.text_load("Black won!", t1.font_ui_get(), t1.font_board_color_get());
     draw_text.text_load("Draw!", t1.font_ui_get(), t1.font_board_color_get());
+    pvp_text.text_load("PVP", t1.font_ui_get(), {128, 0, 0, 255});
+    cpu_text.text_load("CPU", t1.font_ui_get(), {128, 0, 0, 255});
 }
 
 void Game::game_init()
 {
+    pawn_white_idx = 0;
+    pawn_black_idx = 0;
+    rook_white_idx = 0;
+    rook_black_idx = 0;
+    knight_white_idx = 0;
+    knight_black_idx = 0;
+    bishop_white_idx = 0;
+    bishop_black_idx = 0;
+
     text_generate();
 
 
@@ -172,6 +192,7 @@ void Game::game_init()
     king_black.piece_init(BLACK);
 
     valid_squares_find_all();
+
 
 }
 void Game::game_close()
@@ -217,6 +238,9 @@ void Game::game_close()
     white_won_text.destroy();
     black_won_text.destroy();
     draw_text.destroy();
+
+    pvp_text.destroy();
+    cpu_text.destroy();
 }
 
 void Game::letter_render(int column, Color side)
@@ -409,3 +433,36 @@ void Game::game_end_render()
     }
 }
 
+Vec2f Game::board_to_screen(Vec2i bpos, float obj_w, float obj_h)
+{
+    float x = t1.window_width_get() * BOARD_MARGIN + (bpos.x + 1) * square_dim - 0.5f * square_dim - 0.5f * obj_w;
+    float y = t1.window_height_get() * BOARD_MARGIN + (bpos.y + 1) * square_dim - 0.5f * square_dim - 0.5f * obj_h;
+    return {x, y};
+}
+
+void Game::toggle_turn()
+{
+    turn = (turn == WHITE) ? BLACK : WHITE;
+}
+void Game::main_menu_render()
+{
+    if(pvp_text.mouse_in(m1.position_get().x, m1.position_get().y))
+        pvp_text.color_mod(127, 127, 127);
+    else
+        pvp_text.color_mod(255, 255, 255);
+    if(cpu_text.mouse_in(m1.position_get().x, m1.position_get().y))
+        cpu_text.color_mod(127, 127, 127);
+    else
+        cpu_text.color_mod(255, 255, 255);
+    pvp_text.render(
+                    t1.window_width_get() * 0.75 - pvp_text.width_get() * 0.5,
+                    t1.window_height_get() * 0.15 - pvp_text.height_get() * 0.5
+                    );
+    cpu_text.render(
+                    t1.window_width_get() * 0.75 - cpu_text.width_get() * 0.5,
+                    t1.window_height_get() * 0.35 - cpu_text.height_get() * 0.5
+                    );
+
+
+
+}

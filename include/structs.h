@@ -19,7 +19,7 @@ enum Color
 enum Game_Mode
 {
     PVP,
-    CPU
+    VS_CPU
 };
 
 enum Game_State
@@ -27,7 +27,8 @@ enum Game_State
     PLAYING,
     WHITE_WON,
     BLACK_WON,
-    DRAW
+    DRAW,
+    MAIN_MENU
 };
 
 /** \struct Vec2i

@@ -1,6 +1,6 @@
 #include "Piece.h"
 #include "object_init.h"
-#include <iostream>
+#include "constants.h"
 #include "mSDL.h"
 Piece::Piece()
 {
@@ -12,9 +12,7 @@ Piece::Piece()
     the_texture = nullptr;
 }
 
-Piece::~Piece()
-{
-}
+Piece::~Piece() = default;
 void Piece::render()
 {
     if(the_texture==nullptr || the_texture==&name)
@@ -188,7 +186,7 @@ void Piece::snap()
         }
         if(!found)
         {
-            Vec2f oldpos = {static_cast<float>(t1.window_width_get() * 0.1 + (board_pos.x+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.width_get()),static_cast<float>(t1.window_height_get() * 0.1 + (board_pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.height_get())};
+            Vec2f oldpos = g1.board_to_screen(board_pos, name.width_get(), name.height_get());
             name.position_update(oldpos);
         }
         else
@@ -205,7 +203,8 @@ void Piece::valid_squares_render()
     {
 
         SDL_SetRenderDrawColor(t1.renderer_get(), 74, 153, 57, 180);
-        Vec2f bstart = {static_cast<float>(t1.window_width_get() * 0.1), static_cast<float>(t1.window_height_get()*0.1)};
+        float margin_x = t1.window_width_get() * BOARD_MARGIN;
+        float margin_y = t1.window_height_get() * BOARD_MARGIN;
         int len = valid_squares.size();
         for(int i=0;i<len;i++)
         {
@@ -213,8 +212,8 @@ void Piece::valid_squares_render()
         mSDL_Circle to_render =
         {
             .center = {
-                static_cast<float>(bstart.x + valid_squares[i].x * g1.square_dim + 0.5 * g1.square_dim),
-                static_cast<float>(bstart.y + valid_squares[i].y * g1.square_dim + 0.5 * g1.square_dim)
+                static_cast<float>(margin_x + valid_squares[i].x * g1.square_dim + 0.5 * g1.square_dim),
+                static_cast<float>(margin_y + valid_squares[i].y * g1.square_dim + 0.5 * g1.square_dim)
             },
             .radius = 0.375 * g1.square_dim
         };
@@ -227,10 +226,22 @@ void Piece::valid_squares_render()
 }
 void Piece::valid_squares_empty()
 {
-    int len = valid_squares.size();
+    valid_squares.clear();
+}
 
-    for(int i=0;i<len;i++)
-        valid_squares.pop_back();
+void Piece::scan_direction(Vec2i dir)
+{
+    Vec2i chk = board_pos.add(dir);
+    while(chk.x >= 0 && chk.x < BOARD_SIZE && chk.y >= 0 && chk.y < BOARD_SIZE && g1.square_free(chk))
+    {
+        valid_squares.push_back(chk);
+        chk = chk.add(dir);
+    }
+    if(chk.x >= 0 && chk.x < BOARD_SIZE && chk.y >= 0 && chk.y < BOARD_SIZE
+       && g1.board[chk.y*BOARD_SIZE+chk.x]->color != color)
+    {
+        valid_squares.push_back(chk);
+    }
 }
 void Piece::position_update(Vec2i upd)
 {
@@ -244,12 +255,15 @@ void Piece::move(Vec2i pos)
     g1.board[board_pos.y*8 + board_pos.x] = nullptr;
     position_update(pos);
 
-    Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (board_pos.x+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.width_get()),static_cast<float>(t1.window_height_get() * 0.1 + (board_pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.height_get())};
+    Vec2f newpos = g1.board_to_screen(board_pos, name.width_get(), name.height_get());
     name.position_update(newpos);
 
     g1.black_valid_squares=0;
     g1.white_valid_squares=0;
-    g1.turn==WHITE? g1.turn = BLACK : g1.turn = WHITE;
+    g1.toggle_turn();
+
+    c1.engine_start();
+    c1.full_eval();
 
 }
 bool Piece::checking()
@@ -454,7 +468,7 @@ void Piece::promote()
                 g1.board[pos.y*8+pos.x] = promotion;
 
                 promotion->name.text_load(name.str, t1.font_piece_get(), promotion->color_sdl);
-                Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (promotion->board_pos.x+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * promotion->name.width_get()),static_cast<float>(t1.window_height_get() * 0.1 + (promotion->board_pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * promotion->name.height_get())};
+                Vec2f newpos = g1.board_to_screen(promotion->board_pos, promotion->name.width_get(), promotion->name.height_get());
                 promotion->name.position_update(newpos);
 
                 promoter->promoting = false;

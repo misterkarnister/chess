@@ -1,4 +1,4 @@
-#include "../include/SDL3_image/SDL_image.h"
+#include <SDL3_image/SDL_image.h>
 
 #include "Object.h"
 #include "object_init.h"
@@ -156,9 +156,16 @@ bool Text::text_load(const char* strr, TTF_Font* fontt, SDL_Color font_colorr)
 }
 void Object::color_mod(Uint8 r, Uint8 g, Uint8 b)
 {
-    SDL_SetTextureColorMod(texture, r, g, b);
+    if(texture != nullptr)
+        SDL_SetTextureColorMod(texture, r, g, b);
 }
 int Text::text_cmp(const char* other)
 {
     return strcmp(str, other);
+}
+bool Text::mouse_in(float m_x, float m_y)
+{
+    if(m_x<pos.x || m_x>pos.x+width_get() || m_y<pos.y || m_y>pos.y+height_get())
+        return false;
+    return true;
 }

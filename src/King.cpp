@@ -6,10 +6,7 @@ King::King()
     start_pos = true;
 }
 
-King::~King()
-{
-    //dtor
-}
+King::~King() = default;
 
 void King::piece_init(Color c)
 {
@@ -41,7 +38,7 @@ void King::piece_init(Color c)
     }
     }
     name.text_load("K", t1.font_piece_get(), color_sdl);
-    Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (board_pos.x+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.width_get()),static_cast<float>(t1.window_height_get() * 0.1 + (board_pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.height_get())};
+    Vec2f newpos = g1.board_to_screen(board_pos, name.width_get(), name.height_get());
     name.position_update(newpos);
 }
 void King::valid_squares_find()
@@ -137,20 +134,16 @@ void King::move(Vec2i pos)
         {
             g1.board[pos.y*8+pos.x-1] = g1.board[pos.y*8 + pos.x+1];
             g1.board[pos.y*8+pos.x+1] = nullptr;
-            Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (pos.x-1+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.width_get())
-                            ,static_cast<float>(t1.window_height_get() * 0.1 + (pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.height_get())
-                           };
-            g1.board[pos.y*8+pos.x-1]->name.position_update(newpos);
+            Vec2f rookpos = g1.board_to_screen({pos.x-1, pos.y}, name.width_get(), name.height_get());
+            g1.board[pos.y*8+pos.x-1]->name.position_update(rookpos);
             g1.board[pos.y*8+pos.x-1]->position_update({pos.x-1, pos.y});
         }
         else if(pos.x-board_pos.x==-2)
         {
             g1.board[pos.y*8+pos.x+1] = g1.board[pos.y*8 + pos.x-2];
             g1.board[pos.y*8+pos.x-2] = nullptr;
-            Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (pos.x+1+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.width_get())
-                            ,static_cast<float>(t1.window_height_get() * 0.1 + (pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.height_get())
-                           };
-            g1.board[pos.y*8+pos.x+1]->name.position_update(newpos);
+            Vec2f rookpos = g1.board_to_screen({pos.x+1, pos.y}, name.width_get(), name.height_get());
+            g1.board[pos.y*8+pos.x+1]->name.position_update(rookpos);
             g1.board[pos.y*8+pos.x+1]->position_update({pos.x+1, pos.y});
         }
         break;
@@ -161,10 +154,8 @@ void King::move(Vec2i pos)
         {
             g1.board[pos.y*8+pos.x-1] = g1.board[pos.y*8 + pos.x+2];
             g1.board[pos.y*8+pos.x+2] = nullptr;
-            Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (pos.x-1+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.width_get())
-                            ,static_cast<float>(t1.window_height_get() * 0.1 + (pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.height_get())
-                           };
-            g1.board[pos.y*8+pos.x-1]->name.position_update(newpos);
+            Vec2f rookpos = g1.board_to_screen({pos.x-1, pos.y}, name.width_get(), name.height_get());
+            g1.board[pos.y*8+pos.x-1]->name.position_update(rookpos);
             g1.board[pos.y*8+pos.x-1]->position_update({pos.x-1, pos.y});
 
         }
@@ -172,10 +163,8 @@ void King::move(Vec2i pos)
         {
             g1.board[pos.y*8+pos.x+1] = g1.board[pos.y*8 + pos.x-1];
             g1.board[pos.y*8+pos.x-1] = nullptr;
-            Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (pos.x+1+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.width_get())
-                            ,static_cast<float>(t1.window_height_get() * 0.1 + (pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.height_get())
-                           };
-            g1.board[pos.y*8+pos.x+1]->name.position_update(newpos);
+            Vec2f rookpos = g1.board_to_screen({pos.x+1, pos.y}, name.width_get(), name.height_get());
+            g1.board[pos.y*8+pos.x+1]->name.position_update(rookpos);
             g1.board[pos.y*8+pos.x+1]->position_update({pos.x+1, pos.y});
         }
         break;
@@ -184,9 +173,7 @@ void King::move(Vec2i pos)
 
     position_update(pos);
 
-    Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (board_pos.x+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.width_get())
-                    ,static_cast<float>(t1.window_height_get() * 0.1 + (board_pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.height_get())
-                   };
+    Vec2f newpos = g1.board_to_screen(board_pos, name.width_get(), name.height_get());
     name.position_update(newpos);
 
 
@@ -195,5 +182,8 @@ void King::move(Vec2i pos)
 
     g1.black_valid_squares=0;
     g1.white_valid_squares=0;
-    g1.turn==WHITE? g1.turn = BLACK : g1.turn = WHITE;
+    g1.toggle_turn();
+
+    c1.engine_start();
+    c1.full_eval();
 }

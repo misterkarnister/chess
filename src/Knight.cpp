@@ -1,47 +1,38 @@
 #include "Knight.h"
 #include "object_init.h"
-Knight::Knight()
-{
-    //ctor
-}
-
-Knight::~Knight()
-{
-    //dtor
-}
+Knight::Knight() = default;
+Knight::~Knight() = default;
 
 void Knight::piece_init(Color c)
 {
 
     color = c;
-    static int white_ind = 0;
-    static int black_ind = 0;
     switch(c)
     {
     case WHITE:
         {
-            board_pos.x = white_ind==0? 1 : 6;
+            board_pos.x = g1.knight_white_idx==0? 1 : 6;
             board_pos.y =  g1.players_color==WHITE ? 7 : 0;
-            g1.board[g1.players_color==WHITE? 56 + board_pos.x : 0 + board_pos.x]=&knights_white[white_ind];
+            g1.board[g1.players_color==WHITE? 56 + board_pos.x : 0 + board_pos.x]=&knights_white[g1.knight_white_idx];
 
-            white_ind++;
+            g1.knight_white_idx++;
             color_sdl= piece_white;
             the_texture = &knight_white_obj;
             break;
         }
     case BLACK:
         {
-            board_pos.x = black_ind==0? 1:6;
+            board_pos.x = g1.knight_black_idx==0? 1:6;
             board_pos.y =  g1.players_color==WHITE ? 0 : 7;
-            g1.board[g1.players_color==WHITE? 0 + board_pos.x : 56 + board_pos.x]=&knights_black[black_ind];
-            black_ind++;
+            g1.board[g1.players_color==WHITE? 0 + board_pos.x : 56 + board_pos.x]=&knights_black[g1.knight_black_idx];
+            g1.knight_black_idx++;
             color_sdl = piece_black;
             the_texture = &knight_black_obj;
             break;
         }
     }
     name.text_load("N", t1.font_piece_get(), color_sdl);
-    Vec2f newpos = {static_cast<float>(t1.window_width_get() * 0.1 + (board_pos.x+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.width_get()),static_cast<float>(t1.window_height_get() * 0.1 + (board_pos.y+1) * g1.square_dim - 0.5 * g1.square_dim - 0.5 * name.height_get())};
+    Vec2f newpos = g1.board_to_screen(board_pos, name.width_get(), name.height_get());
     name.position_update(newpos);
 }
 void Knight::valid_squares_find()

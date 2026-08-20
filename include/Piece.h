@@ -20,6 +20,7 @@ class Piece
         void valid_squares_render();
         void valid_squares_empty();
         void valid_squares_remove_checked();
+        void scan_direction(Vec2i dir);
 
         void select();
         void unselect();
@@ -41,6 +42,8 @@ class Piece
         bool start_pos;
         Vec2i board_pos;
         std::vector<Vec2i> valid_squares;
+        SDL_Color piece_white;
+        SDL_Color piece_black;
     protected:
 
 
@@ -48,8 +51,7 @@ class Piece
         SDL_Color color_sdl;
 
         bool selected;
-        SDL_Color piece_white;
-        SDL_Color piece_black;
+
 
 
 

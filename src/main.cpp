@@ -4,13 +4,32 @@
 #include <SDL3/SDL_main.h>
 #include <iostream>
 
+King         king_white,         king_black;
+Queen        queen_white,        queen_black;
+Bishop       bishops_white[2],   bishops_black[2];
+Knight       knights_white[2],   knights_black[2];
+Rook         rooks_white[2],     rooks_black[2];
+Pawn         pawns_white[8],     pawns_black[8];
+Queen        promo_queen_white[8],   promo_queen_black[8];
+Rook         promo_rook_white[8],    promo_rook_black[8];
+Bishop       promo_bishop_white[8],  promo_bishop_black[8];
+Knight       promo_knight_white[8],  promo_knight_black[8];
+Piece        promo_display[4];
+CPU          c1;
+Text         letters_text[8],    digits_text[8],     black_won_text,      white_won_text,      draw_text,       pvp_text,       cpu_text;
+Object       pawn_white_obj, rook_white_obj, knight_white_obj, bishop_white_obj, queen_white_obj, king_white_obj,
+             pawn_black_obj, rook_black_obj, knight_black_obj, bishop_black_obj, queen_black_obj, king_black_obj;
+Mouse        m1;
+Game         g1;
+Technical    t1;
+
 int main(int argc, char** argv)
 {
-    if(!init(t1))
+    if(!t1.init())
     {
         SDL_Log("Error init technical\nCode:%d\nError:%s\n", t1.err_code_get(), SDL_GetError());
     }
-    else if(!media(t1))
+    else if(!t1.media())
     {
         SDL_Log("Error media technical\nCode:%d\nError:%s\n", t1.err_code_get(), SDL_GetError());
     }
@@ -83,6 +102,30 @@ int main(int argc, char** argv)
 
                         break;
                     }
+                case MAIN_MENU:
+                    {
+                        switch(e.type)
+                    {
+                    case SDL_EVENT_MOUSE_BUTTON_DOWN:
+                    {
+                        m1.clicked = true;
+                        if(pvp_text.mouse_in(m1.position_get().x, m1.position_get().y))
+                        {
+                            g1.state = PLAYING;
+                            g1.mode = PVP;
+                        }
+                        else if(cpu_text.mouse_in(m1.position_get().x, m1.position_get().y))
+                        {
+                            g1.state = PLAYING;
+                            g1.mode = VS_CPU;
+                        }
+
+                        break;
+
+                    }
+
+                    }
+                    break;
                 }
 
             }
@@ -117,7 +160,7 @@ int main(int argc, char** argv)
 
             g1.board_render();
             g1.pieces_render();
-
+            c1.eval_render();
 
             SDL_RenderPresent(t1.renderer_get());
                     break;
@@ -131,16 +174,30 @@ int main(int argc, char** argv)
 
             SDL_RenderPresent(t1.renderer_get());
                 break;
+            case MAIN_MENU:
+                {
+                    SDL_SetRenderDrawColor(t1.renderer_get(), 255, 255, 255, 255);
+            SDL_RenderClear(t1.renderer_get());
+
+            g1.board_render();
+            g1.pieces_render();
+            g1.main_menu_render();
+
+
+            SDL_RenderPresent(t1.renderer_get());
+                    break;
+                }
             }
 
 
 
 
         }
-
+        }
         g1.game_close();
 
     }
-    close(t1);
+    t1.close();
     return 0;
 }
+
