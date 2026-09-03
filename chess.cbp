@@ -35,6 +35,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/Bishop.h" />
+		<Unit filename="include/CPU.h" />
 		<Unit filename="include/Game.h" />
 		<Unit filename="include/King.h" />
 		<Unit filename="include/Knight.h" />
@@ -45,11 +46,14 @@
 		<Unit filename="include/Queen.h" />
 		<Unit filename="include/Rook.h" />
 		<Unit filename="include/Technical.h" />
+		<Unit filename="include/chess_core.h" />
 		<Unit filename="include/constants.h" />
 		<Unit filename="include/mSDL.h" />
 		<Unit filename="include/object_init.h" />
 		<Unit filename="include/structs.h" />
 		<Unit filename="src/Bishop.cpp" />
+		<Unit filename="src/CPU.cpp" />
+		<Unit filename="src/ChessCore.cpp" />
 		<Unit filename="src/Game.cpp" />
 		<Unit filename="src/King.cpp" />
 		<Unit filename="src/Knight.cpp" />

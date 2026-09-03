@@ -3,7 +3,6 @@
 
 #include "Piece.h"
 
-
 class Queen : public Piece
 {
     public:
@@ -12,7 +11,6 @@ class Queen : public Piece
         Queen(const Queen& other) = delete;
         Queen& operator=(const Queen& other) = delete;
         void piece_init(Color c) override;
-        void valid_squares_find() override;
 
     protected:
 

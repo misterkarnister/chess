@@ -2,9 +2,13 @@
 #define CPU_H
 
 #include "structs.h"
+#include "chess_core.h"
 
-class Piece;
-
+/** \class CPU
+ *
+ *  \brief Thin wrapper around the engine core search. Operates on
+ *         Game::pos only; knows nothing about sprites.
+ */
 class CPU
 {
     public:
@@ -12,18 +16,27 @@ class CPU
         virtual ~CPU();
         CPU(const CPU& other) = delete;
         CPU& operator=(const CPU& other) = delete;
-        double eval_single_pos();
-        void full_eval();
+
+        /** \brief reads the current position from the game */
         void engine_start();
+
+        /** \brief runs alpha-beta search; stores best move + score */
+        void full_eval();
+
+        /** \brief applies the found move to the game (if any) */
+        void play_best_move();
+
         void eval_render();
 
     protected:
 
     private:
-        double  the_depth;
-        double  max_depth;
-        double  evalulation;
-        Piece*  process[64];
+        int   max_depth;
+        int   search_time_ms;   /* per-move search budget               */
+        int   search_threads;   /* parallel (Lazy SMP) worker threads   */
+        double evalulation;
+        Move  best_move;
+        bool  has_move;
         Color color_evaluated;
 };
 

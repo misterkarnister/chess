@@ -3,7 +3,6 @@
 
 #include "Piece.h"
 
-
 class Rook : public Piece
 {
     public:
@@ -12,8 +11,6 @@ class Rook : public Piece
         Rook(const Rook& other) = delete;
         Rook& operator=(const Rook& other) = delete;
         void piece_init(Color c) override;
-        void valid_squares_find() override;
-        void move(Vec2i pos) override;
 
     protected:
 
