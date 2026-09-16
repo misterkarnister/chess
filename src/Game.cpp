@@ -7,7 +7,7 @@
 Game::Game()
 {
     square_dim = 64;
-    players_color = WHITE;
+    players_color = BLACK;
     white_color = {225, 200, 220, 220};
     black_color = {158, 106, 100, 220};
 
@@ -258,8 +258,14 @@ void Game::game_end_render()
 
 Vec2f Game::board_to_screen(Vec2i bpos, float obj_w, float obj_h)
 {
-    float x = t1.window_width_get() * BOARD_MARGIN + (bpos.x + 1) * square_dim - 0.5f * square_dim - 0.5f * obj_w;
-    float y = t1.window_height_get() * BOARD_MARGIN + (bpos.y + 1) * square_dim - 0.5f * square_dim - 0.5f * obj_h;
+    int sx = bpos.x, sy = bpos.y;
+    if(players_color == BLACK)
+    {
+        sx = 7 - bpos.x;
+        sy = 7 - bpos.y;
+    }
+    float x = t1.window_width_get() * BOARD_MARGIN + (sx + 1) * square_dim - 0.5f * square_dim - 0.5f * obj_w;
+    float y = t1.window_height_get() * BOARD_MARGIN + (sy + 1) * square_dim - 0.5f * square_dim - 0.5f * obj_h;
     return {x, y};
 }
 
@@ -449,11 +455,18 @@ bool Game::square_from_mouse(int& out_sq) const
     float ox = t1.window_width_get() * BOARD_MARGIN;
     float oy = t1.window_height_get() * BOARD_MARGIN;
 
-    const int x = static_cast<int>(std::floor((mp.x - ox) / square_dim));
-    const int y = static_cast<int>(std::floor((mp.y - oy) / square_dim));
+    int x = static_cast<int>(std::floor((mp.x - ox) / square_dim));
+    int y = static_cast<int>(std::floor((mp.y - oy) / square_dim));
 
     if(x < 0 || x > 7 || y < 0 || y > 7)
         return false;
+
+    if(players_color == BLACK)
+    {
+        x = 7 - x;
+        y = 7 - y;
+    }
+
     out_sq = y*8 + x;
     return true;
 }
@@ -768,8 +781,14 @@ void Game::handle_promo_click()
     float ox = t1.window_width_get() * BOARD_MARGIN;
     float oy = t1.window_height_get() * BOARD_MARGIN;
 
-    const int col = static_cast<int>(std::floor((mp.x - ox) / square_dim));
-    const int row = static_cast<int>(std::floor((mp.y - oy) / square_dim));
+    int col = static_cast<int>(std::floor((mp.x - ox) / square_dim));
+    int row = static_cast<int>(std::floor((mp.y - oy) / square_dim));
+
+    if(players_color == BLACK)
+    {
+        col = 7 - col;
+        row = 7 - row;
+    }
 
     const int py = (promo_to / 8 == 0) ? -1 : 8;
     static const int8_t types[4] = {TYPE_QUEEN, TYPE_ROOK, TYPE_BISHOP, TYPE_KNIGHT};
@@ -777,7 +796,7 @@ void Game::handle_promo_click()
     for(int i=0; i<4; i++)
     {
         const int xi = promo_to % 8 - 2 + i;
-        if(xi >= 0 && xi <= 7 && col == xi && row == py)
+        if(col == xi && row == py)
         {
             const int8_t code = (pos.side_to_move == WHITE)
                               ? types[i]
@@ -800,10 +819,16 @@ void Game::render_promotion_choices()
     for(int i=0; i<4; i++)
     {
         const int x = promo_to % 8 - 2 + i;
+        int sx = x, spy = py;
+        if(players_color == BLACK)
+        {
+            sx = 7 - x;
+            spy = 7 - py;
+        }
         /* checker colors continue the (col+row)%2 pattern of the board;
          * comparing == 0 makes negative-modulo signs irrelevant */
-        const SDL_Color cc = (((x + py) % 2 == 0)) ? white_color : black_color;
-        square_render(x, py, cc);
+        const SDL_Color cc = (((sx + spy) % 2 == 0)) ? white_color : black_color;
+        square_render(sx, spy, cc);
 
         promo_display[i].position_update({x, py});
         place_sprite(&promo_display[i]);

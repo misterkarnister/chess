@@ -1,9 +1,11 @@
 
 #include "../include/object_init.h"
+#include "../include/UCI.h"
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <iostream>
 #include <cstring>
+#include <unistd.h>
 
 King         king_white,         king_black;
 Queen        queen_white,        queen_black;
@@ -80,6 +82,13 @@ static int run_perft_tests()
 
 int main(int argc, char** argv)
 {
+    if((argc > 1 && std::strcmp(argv[1], "--uci") == 0) || !isatty(STDIN_FILENO))
+    {
+        UCI uci;
+        uci.loop();
+        return 0;
+    }
+
     if(argc > 1 && std::strcmp(argv[1], "--perft") == 0)
     {
         return run_perft_tests();
@@ -148,6 +157,8 @@ int main(int argc, char** argv)
                                 {
                                     g1.state = PLAYING;
                                     g1.mode = VS_CPU;
+                                    if(g1.pos.side_to_move != g1.players_color)
+                                        g1.awaiting_cpu = true;
                                 }
 
                                 break;

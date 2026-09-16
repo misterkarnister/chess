@@ -167,12 +167,18 @@ void Piece::valid_squares_render()
         int len = valid_squares.size();
         for(int i=0;i<len;i++)
         {
+        int vx = valid_squares[i].x, vy = valid_squares[i].y;
+        if(g1.players_color == BLACK)
+        {
+            vx = 7 - vx;
+            vy = 7 - vy;
+        }
 
         mSDL_Circle to_render =
         {
             .center = {
-                static_cast<float>(margin_x + valid_squares[i].x * g1.square_dim + 0.5 * g1.square_dim),
-                static_cast<float>(margin_y + valid_squares[i].y * g1.square_dim + 0.5 * g1.square_dim)
+                static_cast<float>(margin_x + vx * g1.square_dim + 0.5 * g1.square_dim),
+                static_cast<float>(margin_y + vy * g1.square_dim + 0.5 * g1.square_dim)
             },
             .radius = 0.375 * g1.square_dim
         };

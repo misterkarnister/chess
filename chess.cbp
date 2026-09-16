@@ -11,6 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="--uci" />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
@@ -33,7 +34,15 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="/home/temper/SDL3-3.4.16/x86_64-w64-mingw32/include" />
+			<Add directory="/home/temper/SDL3_image-3.4.6/x86_64-w64-mingw32/include" />
+			<Add directory="/home/temper/SDL3_ttf-3.2.2/x86_64-w64-mingw32/include" />
 		</Compiler>
+		<Linker>
+			<Add directory="/home/temper/SDL3-3.4.16/x86_64-w64-mingw32/lib" />
+			<Add directory="/home/temper/SDL3_image-3.4.6/x86_64-w64-mingw32/lib" />
+			<Add directory="/home/temper/SDL3_ttf-3.2.2/x86_64-w64-mingw32/lib" />
+		</Linker>
 		<Unit filename="include/Bishop.h" />
 		<Unit filename="include/CPU.h" />
 		<Unit filename="include/Game.h" />
@@ -46,6 +55,7 @@
 		<Unit filename="include/Queen.h" />
 		<Unit filename="include/Rook.h" />
 		<Unit filename="include/Technical.h" />
+		<Unit filename="include/UCI.h" />
 		<Unit filename="include/chess_core.h" />
 		<Unit filename="include/constants.h" />
 		<Unit filename="include/mSDL.h" />
@@ -64,6 +74,7 @@
 		<Unit filename="src/Queen.cpp" />
 		<Unit filename="src/Rook.cpp" />
 		<Unit filename="src/Technical.cpp" />
+		<Unit filename="src/UCI.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

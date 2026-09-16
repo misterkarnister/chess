@@ -10,6 +10,7 @@
 #define CHESS_CORE_H
 
 #include <cstdint>
+#include <atomic>
 #include "structs.h"
 
 /* ------------------------------------------------------------------ */
@@ -144,6 +145,8 @@ int  search_root(const Position& p, int depth, Move& best_out,
                  int threads = 1);          /* parallel (Lazy SMP) thread count;
                                                1 = single-threaded              */
 void search_clear_tables();                     /* wipe TT / history / killers         */
+void search_clear_uci_stop();                   /* reset UCI stop flag                  */
+extern std::atomic<bool> uci_stop;              /* checked by timed_out() for `stop`   */
 uint64_t search_nodes_last();                   /* nodes visited by last search         */
 
 /* debug helpers ---------------------------------------------------- */

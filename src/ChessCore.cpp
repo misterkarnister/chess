@@ -440,7 +440,8 @@ std::atomic<uint64_t>                last_search_nodes{0};
 
 inline bool timed_out()
 {
-    return std::chrono::steady_clock::now() >= deadline_tp;
+    return std::chrono::steady_clock::now() >= deadline_tp
+        || core::uci_stop.load(std::memory_order_relaxed);
 }
 
 void tt_clear()
@@ -769,6 +770,8 @@ Search_Result harvest_results(std::vector<Search_Result>& results)
 } /* anonymous namespace */
 
 namespace core {
+
+std::atomic<bool> uci_stop{false};
 
 /* ------------------------------------------------------------------ */
 /* setup                                                               */
@@ -1230,6 +1233,11 @@ int search_root(const Position& p, int depth, Move& best_out, int time_alloc_ms,
 void search_clear_tables()
 {
     tt_clear();
+}
+
+void search_clear_uci_stop()
+{
+    uci_stop.store(false, std::memory_order_relaxed);
 }
 
 uint64_t search_nodes_last()
